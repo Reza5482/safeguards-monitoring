@@ -142,7 +142,7 @@ if menu == T["menu_1"] or menu == "Data Input Form (Field Staff)":
             if not loc:
                 st.error(T["err_loc"])
             else:
-                save_report(p_name, loc, lat, lon, date, has_c, c_cat, c_narr, g_stat, aff, safe, iti, rehab, surv)
+            save_report(p_name, loc, lat, lon, date, safe, iti, rehab, surv, has_c, c_cat, c_narr, g_stat, aff)
                 st.success(T["success"])
 
 elif menu == T["menu_2"] or menu == "Executive Analytics Dashboard (HQ/Gunung Batu)":
