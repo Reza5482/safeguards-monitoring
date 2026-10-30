@@ -145,31 +145,38 @@ if menu == T["menu_1"] or menu == "Data Input Form (Field Staff)":
                 save_report(p_name, loc, lat, lon, date, safe, iti, rehab, surv, has_c, c_cat, c_narr, g_stat, aff)
                 st.success(T["success"])
 
+elif menu == T["menu_2"] or menu == "Executive Analytics Dashboard (HQ/Gunung Batu)":
     st.header(T["d_header"])
     
-    # === LANGKAH 1: FITUR FILTER LOKASI ===
+    # === MEMUAT DATA MENTAH ===
     df_raw = load_data()
     sdf_raw = load_data()
     
-    # Membuat filter pilihan di sidebar
-    lokasi_pilihan = st.sidebar.multiselect(
-        "🔍 Filter Berdasarkan Lokasi:",
-        options=list(df_raw['location'].unique()),
-        default=list(df_raw['location'].unique())
-    )
-    
-    # Menyaring data berdasarkan pilihan pengguna
-    df = df_raw[df_raw['location'].isin(lokasi_pilihan)]
-    if 'location' in sdf_raw.columns:
-        sdf = sdf_raw[sdf_raw['location'].isin(lokasi_pilihan)]
-    else:
-        sdf = sdf_raw
-
-    if df.empty:
+    if df_raw.empty:
         st.warning(T["no_data"])
         st.stop()
         
     else:
+        # === FITUR FILTER FILTER HANYA MUNCUL DI DASHBOARD ===
+        st.markdown("### 🔍 Filter Options")
+        lokasi_pilihan = st.multiselect(
+            "Filter Berdasarkan Lokasi Proyek / Site Location:",
+            options=list(df_raw['location'].unique()),
+            default=list(df_raw['location'].unique())
+        )
+        
+        # Menyaring data berdasarkan pilihan di atas
+        df = df_raw[df_raw['location'].isin(lokasi_pilihan)]
+        if 'location' in sdf_raw.columns:
+            sdf = sdf_raw[sdf_raw['location'].isin(lokasi_pilihan)]
+        else:
+            sdf = sdf_raw
+            
+        if df.empty:
+            st.info("ℹ️ Silakan pilih minimal satu lokasi pada kotak filter di atas untuk menampilkan data.")
+            st.stop()
+
+        # === MENAMPILKAN GRAFIK DAN TABEL ===
         st.subheader(T["exp_sec"])
         colg1, colg2 = st.columns(2)
         with colg1:
@@ -198,4 +205,3 @@ if menu == T["menu_1"] or menu == "Data Input Form (Field Staff)":
             st.map(map_df[['latitude', 'longitude']].rename(columns={'latitude': 'lat', 'longitude': 'lon'}))
         else:
             st.info("ℹ️ Belum ada koordinat GPS valid untuk ditampilkan di peta.")
-
