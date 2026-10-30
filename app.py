@@ -165,8 +165,10 @@ elif menu == T["menu_2"]:
 
     if df.empty:
         st.warning(T["no_data"])
-
+        st.stop()
+        
     else:
+
         k1, k2, k3, k4 = st.columns(4)
         k1.metric(T["kpi_rep"], f"{len(df)} Sites")
         k2.metric(T["kpi_safe"], f"{df['safe_hours'].sum():,} Hrs", f"-{df['lti_count'].sum()} LTI", delta_color="inverse")
