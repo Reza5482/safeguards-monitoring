@@ -156,7 +156,7 @@ elif menu == T["menu_2"]:
         else: k4.metric(T["kpi_social"], T["kpi_ok"], T["kpi_ok_sub"])
         
         st.markdown("---")
-        t.subheader(T["exp_sec"])
+        st.subheader(T["exp_sec"])
         df = load_data()
         st.markdown(T["exp_sub"])
         st.download_button(label="📥 Download Official KfW Safeguards Report (.txt)", data=generate_kfw_report_text(df), file_name="KfW Report.txt")
