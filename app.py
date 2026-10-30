@@ -109,7 +109,7 @@ st.markdown("---")
 menu = st.sidebar.radio(T["menu_label"], [T["menu_1"], T["menu_2"]])
 
 if menu == T["menu_1"]:
-        st.header(T["I_header"])
+    st.header(T["I_header"])
     with st.form("safeguards_form", clear_on_submit=True):
         c1, c2 = st.columns(2)
         with c1:
@@ -128,7 +128,6 @@ if menu == T["menu_1"]:
         st.subheader(T["social_sec"])
         has_c = st.radio(T["has_c"], [T["c_no"], T["c_yes"]])
         
-        # Inisialisasi variabel default
         c_cat, c_narr, g_stat, aff = "N/A", "", "N/A", 0
         
         if has_c == T["c_yes"]:
@@ -142,6 +141,10 @@ if menu == T["menu_1"]:
         if submit_button:
             if not loc:
                 st.error(T["err_loc"])
+            else:
+                save_report(p_name, loc, lat, lon, date, has_c, c_cat, c_narr, g_stat, aff, safe, iti, rehab, surv)
+                st.success(T["success"])
+
             else:
                 save_report(p_name, loc, lat, lon, date, has_c, c_cat, c_narr, g_stat, aff, safe, iti, rehab, surv)
                 st.success(T["success"])
