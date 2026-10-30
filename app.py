@@ -119,11 +119,11 @@ if menu == T["menu_1"] or menu == "Data Input Form (Field Staff)":
             lon = st.number_input("Longitude GPS", value=0.0, format="%.6f")
             date = st.date_input(T["date"], datetime.now())
         with c2:
-            safe = st.number_input(T["safe"], min_value=0, value=0)
-            iti = st.number_input(T["iti"], min_value=0, value=0)
-            rehab = st.number_input(T["rehab"], min_value=0.0, value=0.0, format="%.2f")
-            surv = st.slider(T["surv"], 0, 100, 85)
-        
+            safe = st.number_input("Total Safe Working Hours This Month" if lang == "English" else "Total Jam Kerja Selamat Bulan Ini", min_value=0, value=0)
+            iti = st.number_input("Total ITI Incidents This Month" if lang == "English" else "Total Insiden ITI Bulan Ini", min_value=0, value=0)
+            rehab = st.number_input("Rehabilitation Area (Hectares)" if lang == "English" else "Area Rehabilitasi (Hektar)", min_value=0.0, value=0.0, format="%.2f")
+            surv = st.slider("Plant Survival Rate (%)" if lang == "English" else "Tingkat Kelangsungan Hidup Pohon (%)", 0, 100, 85)
+       
         st.markdown("---")
         st.subheader(T["social_sec"])
         has_c = st.radio(T["has_c"], [T["c_no"], T["c_yes"]])
