@@ -160,13 +160,13 @@ elif menu == T["menu_2"]:
 st.markdown(T["exp_sub"])
 st.download_button(label="📄 Download Official KfW Safeguards Report (.txt)", data=generate_kfw_report_text(df), file_name=f"KfW_Report_{datetime.now().strftime('%Y%m%d')}.txt", mime="text/plain")
 st.markdown("---")
-colg1, colg2 = st.columns(2)
-with colg1:
-st.subheader(T["graph_1"])
-st.dataframe(df[['project_name', 'location', 'safe_hours', 'lti_count', 'rehab_hectares', 'survival_rate', 'report_date']], use_container_width=True)
-with colg2:
-st.subheader(T["graph_2"])
-sdf = df[df['has_complaint'] == "Ya"]
+    colg1, colg2 = st.columns(2)
+    with colg1:
+        st.subheader(T["graph_1"])
+        st.dataframe(df[['project_name', 'location', 'safe_hours', 'iti_count', 'rehab_hectares', 'survival_rate', 'report_date']], use_container_width=True)
+    with colg2:
+        st.subheader(T["graph_2"])
+
 if sdf.empty: st.success(T["no_c"])
 else:
 for _, r in sdf.iterrows():
