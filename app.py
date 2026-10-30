@@ -139,18 +139,16 @@ if menu == T["menu_1"]:
         submit_button = st.form_submit_button(T["submit"])
         
         if submit_button:
+        submit_button = st.form_submit_button(T["submit"])
+        
+        if submit_button:
             if not loc:
                 st.error(T["err_loc"])
             else:
                 save_report(p_name, loc, lat, lon, date, has_c, c_cat, c_narr, g_stat, aff, safe, iti, rehab, surv)
                 st.success(T["success"])
 
-                save_report(p_name, loc, lat, lon, date, has_c, c_cat, c_narr, g_stat, aff, safe, iti, rehab, surv)
-                st.success(T["success"])
-
-            else:
-                save_report(p_name, loc, lat, lon, date, has_c, c_cat, c_narr, g_stat, aff, safe, iti, rehab, surv)
-                st.success(T["success"])
+elif menu == T["menu_2"]:
 
     with st.form("safeguards_form", clear_on_submit=True):
         c1, c2 = st.columns(2)
