@@ -144,8 +144,28 @@ if menu == T["menu_1"]:
 
 elif menu == T["menu_2"]:
     st.header(T["d_header"])
-    df = load_data()
-    if df.empty: st.warning(T["no_data"])
+    
+    # === LANGKAH 1: FITUR FILTER LOKASI ===
+    df_raw = load_data()
+    sdf_raw = load_data()
+    
+    # Membuat filter pilihan di sidebar
+    lokasi_pilihan = st.sidebar.multiselect(
+        "🔍 Filter Berdasarkan Lokasi:",
+        options=list(df_raw['location'].unique()),
+        default=list(df_raw['location'].unique())
+    )
+    
+    # Menyaring data berdasarkan pilihan pengguna
+    df = df_raw[df_raw['location'].isin(lokasi_pilihan)]
+    if 'location' in sdf_raw.columns:
+        sdf = sdf_raw[sdf_raw['location'].isin(lokasi_pilihan)]
+    else:
+        sdf = sdf_raw
+
+    if df.empty:
+        st.warning(T["no_data"])
+
     else:
         k1, k2, k3, k4 = st.columns(4)
         k1.metric(T["kpi_rep"], f"{len(df)} Sites")
@@ -157,7 +177,7 @@ elif menu == T["menu_2"]:
         
         st.markdown("---")
         st.subheader(T["exp_sec"])
-        df = load_data()
+
         st.markdown(T["exp_sub"])
         st.download_button(label="📥 Download Official KfW Safeguards Report (.txt)", data=generate_kfw_report_text(df), file_name="KfW Report.txt")
         st.markdown("---")
@@ -170,7 +190,7 @@ elif menu == T["menu_2"]:
                 st.bar_chart(df, x="project_name", y="safe_hours", color="#2ecc71")
                 st.subheader(T["graph_2"])
                 st.bar_chart(df, x="location", y="safe_hours", color="#2ecc71")
-    sdf = load_data()
+  
     if sdf.empty:
         st.success(T["no_cl"])
     else:
