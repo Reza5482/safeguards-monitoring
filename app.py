@@ -167,6 +167,7 @@ elif menu == T["menu_2"]:
                 st.dataframe(df, use_container_width=True)
 
         with colg2:
+                st.bar_chart(df, x="project_name", y="safe_hours")
                 st.subheader(T["graph_2"])
     sdf = load_data()
     if sdf.empty:
