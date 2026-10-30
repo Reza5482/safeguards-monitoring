@@ -158,7 +158,7 @@ elif menu == T["menu_2"]:
         st.markdown("---")
         t.subheader(T["exp_sec"])
 st.markdown(T["exp_sub"])
-st.download_button(label="📥 Download Official KfW Safeguards Report (.txt)", data=generate_kfw_report_text(df), file_name="KfW Report.txt")
+st.download_button(label="📥 Download Official KfW Safeguards Report (.txt)", data=generate_kfw_report_text(d), file_name="KfW Report.txt")
 st.markdown("---")
 colg1, colg2 = st.columns(2)
 with colg1:
