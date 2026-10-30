@@ -139,9 +139,6 @@ if menu == T["menu_1"]:
         submit_button = st.form_submit_button(T["submit"])
         
         if submit_button:
-        submit_button = st.form_submit_button(T["submit"])
-        
-        if submit_button:
             if not loc:
                 st.error(T["err_loc"])
             else:
@@ -149,8 +146,6 @@ if menu == T["menu_1"]:
                 st.success(T["success"])
 
 elif menu == T["menu_2"]:
-
-    with st.form("safeguards_form", clear_on_submit=True):
         c1, c2 = st.columns(2)
         with c1:
             p_name = st.selectbox(T["p_name"], ["Target Programme VI (TP VI) Mangrove", "BMTM1 - KfW Phase 1 Cosystem"])
