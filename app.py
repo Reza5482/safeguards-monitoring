@@ -145,44 +145,7 @@ if menu == T["menu_1"] or menu == "Data Input Form (Field Staff)":
                 save_report(p_name, loc, lat, lon, date, has_c, c_cat, c_narr, g_stat, aff, safe, iti, rehab, surv)
                 st.success(T["success"])
 
-elif menu == T["menu_2"]:
-        c1, c2 = st.columns(2)
-        with c1:
-            p_name = st.selectbox(T["p_name"], ["Target Programme VI (TP VI) Mangrove", "BMTM1 - KfW Phase 1 Cosystem"])
-            loc = st.text_input(T["loc"], placeholder=T["loc_ph"])
-            lat = st.number_input("Latitude GPS", value=0.0, format="%.6f")
-            lon = st.number_input("Longitude GPS", value=0.0, format="%.6f")
-            date = st.date_input(T["date"], datetime.now())
-        with c2:
-            safe = st.number_input(T["safe"], min_value=0, value=0)
-            iti = st.number_input(T["iti"], min_value=0, value=0)
-            rehab = st.number_input(T["rehab"], min_value=0.0, value=0.0, format="%.2f")
-            surv = st.slider(T["surv"], 0, 100, 85)
-        
-        st.markdown("---")
-        st.subheader(T["social_sec"])
-        has_c = st.radio(T["has_c"], [T["c_no"], T["c_yes"]])
-        
-        # Inisialisasi variabel default
-        c_cat, c_narr, g_stat, aff = "N/A", "", "N/A", 0
-        
-        # Kondisi ini sekarang aman di dalam form karena perubahan pilihan radio tidak akan mereset teks di atas
-        if has_c == T["c_yes"]:
-            c_cat = st.selectbox(T["c_cat"], ["Land Dispute", "Environmental Damage", "Labor Complaint", "Other"])
-            c_narr = st.text_area(T["c_narr"])
-            g_stat = st.selectbox(T["g_stat"], ["Open", "In Progress", "Resolved"])
-            aff = st.number_input(T["aff"], min_value=0, value=0)
-            
-        submit_button = st.form_submit_button(T["submit"])
-        
-        if submit_button:
-            if not loc:
-                st.error(T["err_loc"])
-            else:
-                save_report(p_name, loc, lat, lon, date, has_c, c_cat, c_narr, g_stat, aff, safe, iti, rehab, surv)
-                st.success(T["success"])
-
-elif menu == T["menu_2"]:
+elif menu == T["menu_2"] or menu == "Executive Analytics Dashboard (HQ/Gunung Batu)":
     st.header(T["d_header"])
     
     # === LANGKAH 1: FITUR FILTER LOKASI ===
@@ -191,7 +154,7 @@ elif menu == T["menu_2"]:
     
     # Membuat filter pilihan di sidebar
     lokasi_pilihan = st.sidebar.multiselect(
-        "🔍 Filter Berdasarkan Lokasi:",
+        "🔍 Filter Berdasarkan Lokasi:" if lang == "English" else "🔍 Filter Berdasarkan Lokasi:",
         options=list(df_raw['location'].unique()),
         default=list(df_raw['location'].unique())
     )
@@ -208,38 +171,31 @@ elif menu == T["menu_2"]:
         st.stop()
         
     else:
-
-        k1, k2, k3, k4 = st.columns(4)
-        k1.metric(T["kpi_rep"], f"{len(df)} Sites")
-        k2.metric(T["kpi_safe"], f"{df['safe_hours'].sum():,} Hrs", f"-{df['lti_count'].sum()} LTI", delta_color="inverse")
-        k3.metric(T["kpi_rehab"], f"{df['rehab_hectares'].sum():.2f} Ha")
-        act = len(df[df['grm_status'].isin(['Open (Aduan Baru)', 'In Progress (Mediasi)'])])
-        if act > 0: k4.metric(T["kpi_social"], f"{act} Cases", delta_color="inverse")
-        else: k4.metric(T["kpi_social"], T["kpi_ok"], T["kpi_ok_sub"])
-        
-        st.markdown("---")
         st.subheader(T["exp_sec"])
-
-        st.markdown(T["exp_sub"])
-        st.download_button(label="📥 Download Official KfW Safeguards Report (.txt)", data=generate_kfw_report_text(df), file_name="KfW Report.txt")
-        st.markdown("---")
         colg1, colg2 = st.columns(2)
         with colg1:
-                st.subheader(T["graph_1"])
-                st.dataframe(df, use_container_width=True)
-
+            st.subheader(T["graph_1"])
+            st.dataframe(df, use_container_width=True)
         with colg2:
-                st.bar_chart(df, x="project_name", y="safe_hours", color="#2ecc71")
-                st.subheader(T["graph_2"])
-                st.bar_chart(df, x="location", y="safe_hours", color="#2ecc71")
-  
-    if sdf.empty:
-        st.success(T["no_cl"])
-    else:
-        for _, r in sdf.iterrows():
-            with st.expander(f"⚠️ {r['complaint_category']} | Site {r['location']}"):
-                st.write(f"Status: {r['grm_status']} | Affected: {r['affected_people']} People")
-                st.write(r['complaint_narration'])
+            st.subheader(T["graph_2"])
+            st.bar_chart(df, x="project_name", y="safe_hours", color="#2ecc71")
+            st.bar_chart(df, x="location", y="safe_hours", color="#2ecc71")
+
         st.markdown("---")
-    st.subheader(T["map_sec"])
-    st.map(df[['latitude', 'longitude']].rename(columns={'latitude': 'lat', 'longitude': 'lon'}))
+        st.subheader(T["social_sec"])
+        
+        if sdf.empty:
+            st.success(T["no_cl"])
+        else:
+            for _, r in sdf.iterrows():
+                with st.expander(f"⚠️ {r['complaint_category']} | Site {r['location']}"):
+                    st.write(f"Status: {r['grm_status']} | Affected: {r['affected_people']} People")
+                    st.write(r['complaint_narration'])
+                    
+        st.markdown("---")
+        st.subheader(T["map_sec"])
+        map_df = df[(df['latitude'] != 0) & (df['longitude'] != 0)]
+        if not map_df.empty:
+            st.map(map_df[['latitude', 'longitude']].rename(columns={'latitude': 'lat', 'longitude': 'lon'}))
+        else:
+            st.info("ℹ️ Belum ada koordinat GPS valid untuk ditampilkan di peta." if lang == "English" else "ℹ️ Belum ada koordinat GPS valid untuk ditampilkan di peta.")
