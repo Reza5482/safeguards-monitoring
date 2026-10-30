@@ -108,9 +108,8 @@ st.markdown("---")
 
 menu = st.sidebar.radio(T["menu_label"], [T["menu_1"], T["menu_2"]])
 
-if menu == T["menu_1"]:
-     st.header("📋 Data Input Form (Field Staff)" if lang == "English" else "📋 Formulir Input Data (Staf Lapangan)")
-
+if menu == T["menu_1"] or menu == "Data Input Form (Field Staff)":
+    st.header("📋 Data Input Form (Field Staff)" if lang == "English" else "📋 Formulir Input Data (Staf Lapangan)")
     with st.form("safeguards_form", clear_on_submit=True):
         c1, c2 = st.columns(2)
         with c1:
