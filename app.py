@@ -120,7 +120,7 @@ if menu == T["menu_1"] or menu == "Data Input Form (Field Staff)":
             date = st.date_input(T["date"], datetime.now())
         with c2:
             safe = st.number_input("Total Safe Working Hours This Month" if lang == "English" else "Total Jam Kerja Selamat Bulan Ini", min_value=0, value=0)
-            iti = st.number_input("Total ITI Incidents This Month" if lang == "English" else "Total Insiden ITI Bulan Ini", min_value=0, value=0)
+            iti = st.number_input("Total LTI Incidents This Month" if lang == "English" else "Total Insiden LTI Bulan Ini", min_value=0, value=0)
             rehab = st.number_input("Rehabilitation Area (Hectares)" if lang == "English" else "Area Rehabilitasi (Hektar)", min_value=0.0, value=0.0, format="%.2f")
             surv = st.slider("Plant Survival Rate (%)" if lang == "English" else "Tingkat Kelangsungan Hidup Pohon (%)", 0, 100, 85)
        
