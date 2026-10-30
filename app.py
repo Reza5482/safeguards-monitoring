@@ -167,9 +167,9 @@ elif menu == T["menu_2"]:
                 st.dataframe(df, use_container_width=True)
 
         with colg2:
-                st.bar_chart(df, x="project_name", y="safe_hours")
+                st.bar_chart(df, x="project_name", y="safe_hours", color="#2ecc71")
                 st.subheader(T["graph_2"])
-                st.bar_chart(df, x="location", y="safe_hours")
+                st.bar_chart(df, x="location", y="safe_hours", color="#2ecc71")
     sdf = load_data()
     if sdf.empty:
         st.success(T["no_cl"])
