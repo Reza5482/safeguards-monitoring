@@ -167,8 +167,8 @@ elif menu == T["menu_2"]:
                 st.dataframe(df[['project_name', 'location', 'safe_hours', 'iti_count', 'rehab_hectares', 'survival_rate', 'report_date']], use_container_width=True)
         with colg2:
                 st.subheader(T["graph_2"])
-
-if sdf.empty:
+    sdf = load_data()
+    if sdf.empty:
     st.success(T["no_cl"])
 else:
     for _, r in sdf.iterrows():
