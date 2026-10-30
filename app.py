@@ -154,7 +154,7 @@ elif menu == T["menu_2"] or menu == "Executive Analytics Dashboard (HQ/Gunung Ba
     
     # Membuat filter pilihan di sidebar
     lokasi_pilihan = st.sidebar.multiselect(
-        "🔍 Filter Berdasarkan Lokasi:" if lang == "English" else "🔍 Filter Berdasarkan Lokasi:",
+        "🔍 Filter Berdasarkan Lokasi:",
         options=list(df_raw['location'].unique()),
         default=list(df_raw['location'].unique())
     )
@@ -198,4 +198,5 @@ elif menu == T["menu_2"] or menu == "Executive Analytics Dashboard (HQ/Gunung Ba
         if not map_df.empty:
             st.map(map_df[['latitude', 'longitude']].rename(columns={'latitude': 'lat', 'longitude': 'lon'}))
         else:
-            st.info("ℹ️ Belum ada koordinat GPS valid untuk ditampilkan di peta." if lang == "English" else "ℹ️ Belum ada koordinat GPS valid untuk ditampilkan di peta.")
+            st.info("ℹ️ Belum ada koordinat GPS valid untuk ditampilkan di peta.")
+
