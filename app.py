@@ -164,7 +164,8 @@ elif menu == T["menu_2"]:
         colg1, colg2 = st.columns(2)
         with colg1:
                 st.subheader(T["graph_1"])
-                st.dataframe(df[['project_name', 'location', 'safe_hours', 'iti_count', 'rehab_hectares', 'survival_rate', 'report_date']], use_container_width=True)
+                st.dataframe(df, use_container_width=True)
+
         with colg2:
                 st.subheader(T["graph_2"])
     sdf = load_data()
