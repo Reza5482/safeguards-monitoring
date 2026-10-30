@@ -109,37 +109,42 @@ st.markdown("---")
 menu = st.sidebar.radio(T["menu_label"], [T["menu_1"], T["menu_2"]])
 
 if menu == T["menu_1"]:
-    st.header(T["f_header"])
+    st.header(T["l_header"])
     with st.form("safeguards_form", clear_on_submit=True):
         c1, c2 = st.columns(2)
         with c1:
-            p_name = st.selectbox(T["p_name"], ["Forest Programme VI (FP VI) Mangrove", "BCCPGLE - KfW Leuser Ecosystem"])
+            p_name = st.selectbox(T["p_name"], ["Target Programme VI (TP VI) Mangrove", "BMTM1 - KfW Phase 1 Cosystem"])
             loc = st.text_input(T["loc"], placeholder=T["loc_ph"])
             lat = st.number_input("Latitude GPS", value=0.0, format="%.6f")
             lon = st.number_input("Longitude GPS", value=0.0, format="%.6f")
             date = st.date_input(T["date"], datetime.now())
         with c2:
             safe = st.number_input(T["safe"], min_value=0, value=0)
-            lti = st.number_input(T["lti"], min_value=0, value=0)
+            iti = st.number_input(T["iti"], min_value=0, value=0)
             rehab = st.number_input(T["rehab"], min_value=0.0, value=0.0, format="%.2f")
             surv = st.slider(T["surv"], 0, 100, 85)
+        
         st.markdown("---")
         st.subheader(T["social_sec"])
         has_c = st.radio(T["has_c"], [T["c_no"], T["c_yes"]])
-        c_cat, c_narr, g_stat, aff = "N/A", "", "N/A", 0
-        if has_c == T["c_yes"]:
-            cc1, cc2 = st.columns(2)
-            with cc1:
-                c_cat = st.selectbox(T["c_cat"], ["Sengketa Batas Lahan", "Pembatasan Akses Ekonomi", "Persoalan Tenaga Kerja", "Lainnya"])
-                aff = st.number_input(T["aff"], min_value=0, value=1)
-            with cc2:
-                g_stat = st.selectbox(T["g_stat"], ["Open (Aduan Baru)", "In Progress (Mediasi)", "Closed (Selesai)"])
-            c_narr = st.text_area(T["c_narr"])
         
-        if st.form_submit_button(T["submit"]):
-            if not loc: st.error(T["err_loc"])
+        # Inisialisasi variabel default
+        c_cat, c_narr, g_stat, aff = "N/A", "", "N/A", 0
+        
+        # Kondisi ini sekarang aman di dalam form karena perubahan pilihan radio tidak akan mereset teks di atas
+        if has_c == T["c_yes"]:
+            c_cat = st.selectbox(T["c_cat"], ["Land Dispute", "Environmental Damage", "Labor Complaint", "Other"])
+            c_narr = st.text_area(T["c_narr"])
+            g_stat = st.selectbox(T["g_stat"], ["Open", "In Progress", "Resolved"])
+            aff = st.number_input(T["aff"], min_value=0, value=0)
+            
+        submit_button = st.form_submit_button(T["submit"])
+        
+        if submit_button:
+            if not loc:
+                st.error(T["err_loc"])
             else:
-                save_report({'p_name': p_name, 'loc': loc, 'lat': lat, 'lon': lon, 'has_c': "Ya" if has_c==T["c_yes"] else "Tidak", 'c_cat': c_cat, 'c_narr': c_narr, 'g_stat': g_stat, 'aff': int(aff), 'safe': int(safe), 'lti': int(lti), 'rehab': float(rehab), 'surv': float(surv), 'date': str(date)})
+                save_report(p_name, loc, lat, lon, date, has_c, c_cat, c_narr, g_stat, aff, safe, iti, rehab, surv)
                 st.success(T["success"])
 
 elif menu == T["menu_2"]:
