@@ -145,6 +145,9 @@ if menu == T["menu_1"]:
                 save_report(p_name, loc, lat, lon, date, has_c, c_cat, c_narr, g_stat, aff, safe, iti, rehab, surv)
                 st.success(T["success"])
 
+                save_report(p_name, loc, lat, lon, date, has_c, c_cat, c_narr, g_stat, aff, safe, iti, rehab, surv)
+                st.success(T["success"])
+
             else:
                 save_report(p_name, loc, lat, lon, date, has_c, c_cat, c_narr, g_stat, aff, safe, iti, rehab, surv)
                 st.success(T["success"])
