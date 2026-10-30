@@ -167,12 +167,13 @@ with colg1:
 with colg2:
     st.subheader(T["graph_2"])
 
-if sdf.empty: st.success(T["no_c"])
+if sdf.empty:
+    st.success(T["no_cl"])
 else:
-for _, r in sdf.iterrows():
-with st.expander(f"⚠️ {r['complaint_category']} - Site {r['location']}"):
-st.write(f"Status: {r['grm_status']} | Affected: {r['affected_people']} People")
-st.write(r['complaint_narration'])
-st.markdown("---")
+    for _, r in sdf.iterrows():
+        with st.expander(f"⚠️ {r['complaint_category']} | Site {r['location']}"):
+            st.write(f"Status: {r['grm_status']} | Affected: {r['affected_people']} People")
+            st.write(r['complaint_narration'])
+    st.markdown("---")
 st.subheader(T["map_sec"])
 st.map(df[['latitude', 'longitude']].rename(columns={'latitude': 'lat', 'longitude': 'lon'}))
